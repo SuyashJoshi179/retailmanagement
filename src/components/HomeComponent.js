@@ -1,20 +1,29 @@
+import { useState } from "react";
 import { Button, Card, CardBody, CardText, Form, FormGroup, Input, Label } from "reactstrap";
-const Customer = (props) => {
+const SignIn = (props) => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const handleSign = (e) => {
+        e.preventDefault();
+        console.log(email, password);
+    }
     return (
         <div className="App">
             <div className="App-header">
                 <Card className='cardform'>
                     <CardBody>
-                        <Form>
+                        <Form onSubmit={handleSign}>
                             <FormGroup>
                                 <Label for="Username">
-                                    <strong>Enter Username</strong>
+                                    <strong>Enter Email</strong>
                                 </Label>
                                 <Input
-                                    id="username"
-                                    name="username"
-                                    placeholder="Username"
-                                    type="text"
+                                    id="email"
+                                    name="email"
+                                    placeholder="example@abc.com"
+                                    type="email"
+                                    value={email}
+                                    onChange={e => setEmail(e.target.value)}
                                 />
                             </FormGroup>
                             <FormGroup>
@@ -26,13 +35,15 @@ const Customer = (props) => {
                                     name="password"
                                     placeholder="Password"
                                     type="password"
+                                    value={password}
+                                    onChange={e => setPassword(e.target.value)}
                                 />
                             </FormGroup>
-                            <Button className="formbutton">
-                                Submit
+                            <Button type='submit' className="formbutton">
+                                Sign In
                             </Button>
                             <CardText className="signintext">
-                                Don't have an account? <strong><a href='/'>Sign Up.</a></strong>
+                                Don't have an account? <strong><a href='/signup'>Sign Up.</a></strong>
                             </CardText>
                         </Form>
                     </CardBody>
@@ -41,4 +52,4 @@ const Customer = (props) => {
         </div>
     );
 }
-export default Customer;
+export default SignIn;

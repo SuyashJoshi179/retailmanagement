@@ -32,5 +32,39 @@
 }
 
 .cardform {
-  border-radius: 10%;
+  border-radius: 25px;
+}
+
+.customerdash {
+  margin-top: 75px;
+
+}
+
+.navbar {
+  background-color: #4c7bec;
+}
+
+.cardimage {
+  max-height: 300px;
+  max-width: 100%;
+}
+
+.mediaimage {
+  max-height: 100px;
+  max-width: 100%;
+}
+
+.mediacover {
+  height: 100px;
+  margin: 10px;
+  object-fit: contain;
+}
+
+.imagecover {
+  height: 300px;
+  margin: 10px;
+  object-fit: contain;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
