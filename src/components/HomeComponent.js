@@ -1,25 +1,32 @@
+import axios from "axios";
 import { useState } from "react";
-import { Button, Card, CardBody, CardText, Form, FormGroup, Input, Label } from "reactstrap";
 import { Navigate } from "react-router-dom";
-import axiosApi from "./url";
-import { getDefaultNormalizer } from "@testing-library/dom";
+import { Button, Card, CardBody, CardText, Form, FormGroup, Input, Label } from "reactstrap";
 const SignIn = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [redir, setRedir] = useState("");
     const handleSign = (e) => {
         e.preventDefault();
-        axiosApi.post("accounts/login_api", {
+        var Headers = {
+            "Content-Type": "application/json",
+        }
+        if(sessionStorage.getItem("token") && sessionStorage.getItem("token") !== 'undefined') Headers["Authorization"] = 'Token ' + sessionStorage.getItem("token");
+        axios.post("http://127.0.0.1:8000/accounts/login_api/", {
             username: email,
             password: password,
+        }, {
+            headers: Headers
         }).then((res) => {
             if (res.status === 200) {
-                localStorage.setItem("token", res.data.token);
-                setRedir(true);
+                sessionStorage.setItem("token", res.data.token);
+                setRedir(res.data.user.category);
+            } else {
+                alert(res.statusText, res.status);
             }
-        });
-        if(email === "suyash.joshi179@gmail.com") setRedir("customer"); else if(email === "ilyashussain14@gmail.com") setRedir("delivery_personnel"); else alert("Invalid Credentials!");
+        }).catch((res) => alert(res));
     }
+    console.log(redir);
     if (redir) {
         return (<Navigate to={`/${redir}`} />);
     } else {

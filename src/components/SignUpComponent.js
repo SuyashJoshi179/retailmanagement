@@ -1,7 +1,7 @@
+import axios from "axios";
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { Button, Card, CardBody, CardText, Form, FormGroup, Input, Label } from "reactstrap";
-import axiosApi from "./url";
 const Signup = (props) => {
     const [email, setEmail] = useState("");
     const [firstname, setFirstname] = useState("");
@@ -13,16 +13,37 @@ const Signup = (props) => {
 
     const handleSign = (e) => {
         e.preventDefault();
-        axiosApi.post("accounts/register_api/", {
+        var Headers = {
+            "Content-Type": "application/json",
+        }
+        if(sessionStorage.getItem("token") && sessionStorage.getItem("token") !== 'undefined') Headers["Authorization"] = 'Token ' + sessionStorage.getItem("token");
+        
+        axios.post("http://127.0.0.1:8000/accounts/register_api/", {
             email: email,
-            firstname: firstname,
-            lastname: lastname,
+            first_name: firstname,
+            last_name: lastname,
             category: role,
             password: password,
             address: address,
-        })
-        alert("SignUp Successful");
-        setRedir(" ")
+        }, {
+            headers: Headers
+        }).then((res) => {
+            console.log(res);
+            if (res.status === 200) {
+                alert("SignUp Successful");
+                setRedir(" ");
+            } else {
+                alert(res.statusText, res.status);
+            }
+        }).catch((res) => {
+            if (res.response.status === 400 && res.response.data.password) {
+                let s = "";
+                res.response.data.password.forEach((i) => { s += i + "\n" });
+                alert(s);
+            } else {
+                alert(res);
+            }
+        });
     }
     if (redir) {
         return (<Navigate to={`/${redir}`} />);

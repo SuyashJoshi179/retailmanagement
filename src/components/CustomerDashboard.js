@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import { Button, Card, CardBody, CardSubtitle, CardText, CardTitle, Col, Container, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader, Nav, Navbar, NavbarBrand, NavbarText, NavItem, NavLink, Row } from "reactstrap";
 import boult from '../images/boult.webp';
@@ -7,22 +8,26 @@ import jbl from '../images/jbl.webp';
 import lenovo from '../images/lenovo.jpg';
 import macbook from '../images/macbook.jpg';
 import powerbank from '../images/powerbank.jpg';
-import axiosApi from "./url";
 
 const MyModal = (props) => {
     const [quantity, setQuantity] = useState(1);
     const handleOrder = () => {
-        axiosApi.post("items/place_order/", {
+        var Headers = {
+            "Content-Type": "application/json",
+        }
+        if(sessionStorage.getItem("token") && sessionStorage.getItem("token") !== 'undefined') Headers["Authorization"] = 'Token ' + sessionStorage.getItem("token");
+        axios.post("http://127.0.0.1:8000/items/place_order/", {
             item: props.selected.prodkey,
             quantity: quantity,
+        }, {
+            headers: Headers
         })
             .then((res) => {
                 if (res.status === 200) {
                     props.setSelected(undefined);
+                    alert(`Order Placed for ${props.selected.name}`);
                 }
             });
-        props.setSelected(undefined);
-        alert(`Order Placed for ${props.selected.name}`);
     }
 
     if (props.selected) {
@@ -63,7 +68,7 @@ const MyModal = (props) => {
                                     </Label>
                                 </Col>
                                 <Col sm={6}>
-                                    <Input type="number" id="quantity" name="quantity" value={quantity} onChange={e => setQuantity(e.target.value)} />
+                                    <Input type="number" id="quantity" name="quantity" value={quantity} onChange={e => setQuantity(parseInt(e.target.value))} />
                                 </Col>
                             </FormGroup>
                         </Form>
@@ -91,7 +96,6 @@ const MyModal = (props) => {
 const Item = (props) => {
 
     const placehandler = (e) => {
-        console.log(props.prodkey);
         e.preventDefault();
         props.setSelected({
             image: props.image,
@@ -141,6 +145,12 @@ const Item = (props) => {
 
 const Customer = (props) => {
     const [selected, setSelected] = useState(undefined);
+
+    const logouthandle = () => {
+        console.log("<a href='/' onClick={logouthandle} color='white'>Logout</a>");
+        sessionStorage.setItem("token", undefined);
+    }
+
     return (
         <>
             <Navbar
@@ -160,7 +170,7 @@ const Customer = (props) => {
                     </NavItem>
                 </Nav>
                 <NavbarText>
-                    Logout
+                    <a href='/' onClick={logouthandle} color='white'><a href='/' onClick={logouthandle} color='white'>Logout</a></a>
                 </NavbarText>
             </Navbar>
             <Container className="customerdash">

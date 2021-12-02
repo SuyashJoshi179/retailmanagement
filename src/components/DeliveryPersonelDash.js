@@ -1,16 +1,50 @@
-import { useState } from "react";
-import { Button, Card, CardBody, CardSubtitle, CardText, CardTitle, Col, Container, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader, Nav, Navbar, NavbarBrand, NavbarText, NavItem, NavLink, Row, Table } from "reactstrap";
-import boult from '../images/boult.webp';
-import charger from '../images/charger.webp';
-import hp from '../images/hp.jpg';
-import jbl from '../images/jbl.webp';
-import lenovo from '../images/lenovo.jpg';
-import macbook from '../images/macbook.jpg';
-import powerbank from '../images/powerbank.jpg';
-import axiosApi from "./url";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { Col, Container, Navbar, NavbarBrand, NavbarText, Row, Table } from "reactstrap";
 
 const Delivery = (props) => {
-    const [selected, setSelected] = useState(undefined);
+    const [data, setData] = useState([])
+    var formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'INR',
+    });
+    useEffect(() => {
+        var Headers = {
+            "Content-Type": "application/json",
+        }
+        if(sessionStorage.getItem("token") && sessionStorage.getItem("token") !== 'undefined') Headers["Authorization"] = 'Token ' + sessionStorage.getItem("token");
+        axios.get('http://127.0.0.1:8000/items/get_dp_orders/', {
+            headers: Headers
+        }).then(json => setData(json.data))
+    }, [])
+
+    const convvertdate = (s) => {
+        const D = new Date(s);
+        return (`${D.toDateString()}   ${D.toLocaleTimeString()}`);
+    }
+
+    const renderTable = () => {
+        return data.map((item, index) => {
+            return (
+                <tr>
+                    <th scope="row">{index + 1}</th>
+                    <td>{item.item_name}</td>
+                    <td>{formatter.format(item.cost)}</td>
+                    <td>{convvertdate(item.delivery_time)}</td>
+                    <td>{item.quantity}</td>
+                    <td>{item.first_name}</td>
+                    <td>{item.address}</td>
+                </tr>
+            )
+        })
+    }
+
+    const logouthandle = () => {
+        console.log("<a href='/' onClick={logouthandle} color='white'>Logout</a>");
+        sessionStorage.setItem("token", undefined);
+    }
+
+
     return (
         <>
             <Navbar
@@ -20,7 +54,7 @@ const Delivery = (props) => {
                     <strong>Dashboard</strong>
                 </NavbarBrand>
                 <NavbarText>
-                    Logout
+                    <a href='/' onClick={logouthandle} color='white'>Logout</a>
                 </NavbarText>
             </Navbar>
             <Container className="customerdash">
@@ -36,51 +70,24 @@ const Delivery = (props) => {
                                         Item Name
                                     </th>
                                     <th>
-                                        Customer Name
+                                        Cost
                                     </th>
                                     <th>
-                                        Address
+                                        Delivery Time
                                     </th>
                                     <th>
                                         Quantity
                                     </th>
+                                    <th>
+                                        Customer's Name
+                                    </th>
+                                    <th>
+                                        Address
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row">
-                                        1
-                                    </th>
-                                    <td>
-                                        HP Spectre x360 11th Gen Intel Core i5 13.5-inch(34.2 cm)
-                                    </td>
-                                    <td>
-                                        Suyash Joshi
-                                    </td>
-                                    <td>
-                                        Pune
-                                    </td>
-                                    <td>
-                                        2
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        2
-                                    </th>
-                                    <td>
-                                        USB C Charger, Anker 20W PD Fast Charger, PowerPort III Charger
-                                    </td>
-                                    <td>
-                                        Suyash Joshi
-                                    </td>
-                                    <td>
-                                        Pune
-                                    </td>
-                                    <td>
-                                        3
-                                    </td>
-                                </tr>
+                                {renderTable()}
                             </tbody>
                         </Table>
                     </Col>
