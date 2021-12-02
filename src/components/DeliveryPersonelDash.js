@@ -19,16 +19,6 @@ const Delivery = (props) => {
                 <NavbarBrand href="/">
                     <strong>Dashboard</strong>
                 </NavbarBrand>
-                <Nav
-                    className="me-auto"
-                    navbar
-                >
-                    <NavItem>
-                        <NavLink href="/orders">
-                            My Orders
-                        </NavLink>
-                    </NavItem>
-                </Nav>
                 <NavbarText>
                     Logout
                 </NavbarText>
@@ -43,13 +33,16 @@ const Delivery = (props) => {
                                         #
                                     </th>
                                     <th>
-                                        First Name
+                                        Item Name
                                     </th>
                                     <th>
-                                        Last Name
+                                        Customer Name
                                     </th>
                                     <th>
-                                        Username
+                                        Address
+                                    </th>
+                                    <th>
+                                        Quantity
                                     </th>
                                 </tr>
                             </thead>
@@ -59,13 +52,16 @@ const Delivery = (props) => {
                                         1
                                     </th>
                                     <td>
-                                        Mark
+                                        HP Spectre x360 11th Gen Intel Core i5 13.5-inch(34.2 cm)
                                     </td>
                                     <td>
-                                        Otto
+                                        Suyash Joshi
                                     </td>
                                     <td>
-                                        @mdo
+                                        Pune
+                                    </td>
+                                    <td>
+                                        2
                                     </td>
                                 </tr>
                                 <tr>
@@ -73,27 +69,16 @@ const Delivery = (props) => {
                                         2
                                     </th>
                                     <td>
-                                        Jacob
+                                        USB C Charger, Anker 20W PD Fast Charger, PowerPort III Charger
                                     </td>
                                     <td>
-                                        Thornton
+                                        Suyash Joshi
                                     </td>
                                     <td>
-                                        @fat
+                                        Pune
                                     </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
+                                    <td>
                                         3
-                                    </th>
-                                    <td>
-                                        Larry
-                                    </td>
-                                    <td>
-                                        the Bird
-                                    </td>
-                                    <td>
-                                        @twitter
                                     </td>
                                 </tr>
                             </tbody>

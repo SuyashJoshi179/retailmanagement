@@ -13,7 +13,7 @@ const MyModal = (props) => {
     const [quantity, setQuantity] = useState(1);
     const handleOrder = () => {
         axiosApi.post("items/place_order/", {
-            item: props.selected.key,
+            item: props.selected.prodkey,
             quantity: quantity,
         })
             .then((res) => {
@@ -22,6 +22,7 @@ const MyModal = (props) => {
                 }
             });
         props.setSelected(undefined);
+        alert(`Order Placed for ${props.selected.name}`);
     }
 
     if (props.selected) {
@@ -90,6 +91,7 @@ const MyModal = (props) => {
 const Item = (props) => {
 
     const placehandler = (e) => {
+        console.log(props.prodkey);
         e.preventDefault();
         props.setSelected({
             image: props.image,
@@ -98,7 +100,7 @@ const Item = (props) => {
             oprice: props.oprice,
             off: props.off,
             seller: props.seller,
-            key: props.key,
+            prodkey: props.prodkey,
         });
     }
 
@@ -163,13 +165,13 @@ const Customer = (props) => {
             </Navbar>
             <Container className="customerdash">
                 <Row>
-                    <Item key={10} image={hp} name="HP Spectre x360 11th Gen Intel Core i5 13.5-inch(34.2 cm)" price="₹1,13,990.00" oprice="₹1,46,194.50" off={22} seller="Cloudtail Ltd." setSelected={setSelected} />
-                    <Item key={11} image={lenovo} name="Lenovo IdeaPad Slim 5 11th Gen Intel Core i5 15.6 inches FHD," price="₹60,990.00" oprice="₹85,290.00" off={28} seller="Cloudtail Ltd." setSelected={setSelected} />
-                    <Item key={12} image={macbook} name="2020 Apple MacBook Air (13.3-inch/33.78 cm, Apple M1 chip" price="₹85,900" oprice="₹92,900" off={8} seller="Unicorn Ltd." setSelected={setSelected} />
-                    <Item key={13} image={powerbank} name="Ambrane 10000mAh Li-Polymer Powerbank with 12W Fast Charging" price="₹699.00" oprice="₹1,499.00" off={53} seller="Cloudtail Ltd." setSelected={setSelected} />
-                    <Item key={14} image={jbl} name="JBL C100SI by Harman Wired In Ear Headphones with Mic (Black)" price="₹799.00" oprice="₹1,299.00" off={38} seller="Cloudtail Ltd." setSelected={setSelected} />
-                    <Item key={15} image={boult} name="Boult Audio BassBuds X1 in-Ear Wired Earphones with 10mm" price="₹299.00" oprice="₹999.00" off={70} seller="Cloudtail Ltd." setSelected={setSelected} />
-                    <Item key={16} image={charger} name="USB C Charger, Anker 20W PD Fast Charger, PowerPort III Charger" price="₹1490.00" oprice="₹1499.00" off={1} seller="Unicorn Ltd." setSelected={setSelected} />
+                    <Item prodkey={10} image={hp} name="HP Spectre x360 11th Gen Intel Core i5 13.5-inch(34.2 cm)" price="₹1,13,990.00" oprice="₹1,46,194.50" off={22} seller="Cloudtail Ltd." setSelected={setSelected} />
+                    <Item prodkey={11} image={lenovo} name="Lenovo IdeaPad Slim 5 11th Gen Intel Core i5 15.6 inches FHD," price="₹60,990.00" oprice="₹85,290.00" off={28} seller="Cloudtail Ltd." setSelected={setSelected} />
+                    <Item prodkey={12} image={macbook} name="2020 Apple MacBook Air (13.3-inch/33.78 cm, Apple M1 chip" price="₹85,900" oprice="₹92,900" off={8} seller="Unicorn Ltd." setSelected={setSelected} />
+                    <Item prodkey={13} image={powerbank} name="Ambrane 10000mAh Li-Polymer Powerbank with 12W Fast Charging" price="₹699.00" oprice="₹1,499.00" off={53} seller="Cloudtail Ltd." setSelected={setSelected} />
+                    <Item prodkey={14} image={jbl} name="JBL C100SI by Harman Wired In Ear Headphones with Mic (Black)" price="₹799.00" oprice="₹1,299.00" off={38} seller="Cloudtail Ltd." setSelected={setSelected} />
+                    <Item prodkey={15} image={boult} name="Boult Audio BassBuds X1 in-Ear Wired Earphones with 10mm" price="₹299.00" oprice="₹999.00" off={70} seller="Cloudtail Ltd." setSelected={setSelected} />
+                    <Item prodkey={16} image={charger} name="USB C Charger, Anker 20W PD Fast Charger, PowerPort III Charger" price="₹1490.00" oprice="₹1499.00" off={1} seller="Unicorn Ltd." setSelected={setSelected} />
                 </Row>
             </Container>
             <MyModal selected={selected} setSelected={setSelected} />

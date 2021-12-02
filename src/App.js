@@ -18,7 +18,7 @@ function App() {
         <Route path="signup" element={<Signup />} />
         <Route path="customer" element={<Customer />} />
         <Route path="retailer" element={<Retailer />} />
-        <Route path="delivery" element={<Delivery />} />
+        <Route path="delivery_personnel" element={<Delivery />} />
         <Route path="orders" element={<CustomerOrders />} />
       </Routes>
     </Router>
